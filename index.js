@@ -1,11 +1,13 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const chromium = require('chrome-aws-lambda');
 
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    executablePath: async () => await chromium.executablePath,
+    args: chromium.args,
+    headless: chromium.headless
   }
 });
 
@@ -23,20 +25,7 @@ client.on('message', message => {
 
   if (texto === 'oi' || texto === 'olá' || texto === 'ola') {
     message.reply(
-      `🌸 Olá, tudo bem?
-Seja bem-vindo à Kalanchoe Flores!
-
-Para solicitar um orçamento, por favor informe:
-
-📅 Data do evento (dia, mês e ano)
-📍 Local do evento
-💐 Tipo de decoração:
-- Cerimônia religiosa
-- Buquê de noiva
-- Arranjos em geral
-
-Atenciosamente,
-Kalanchoe Flores 💐`
+      `🌸 Olá, tudo bem?\nSeja bem-vindo à Kalanchoe Flores!\n\nPara solicitar um orçamento, por favor informe:\n\n📅 Data do evento (dia, mês e ano)\n📍 Local do evento\n💐 Tipo de decoração:\n- Cerimônia religiosa\n- Buquê de noiva\n- Arranjos em geral\n\nAtenciosamente,\nKalanchoe Flores 💐`
     );
   }
 });
