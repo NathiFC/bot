@@ -5,9 +5,15 @@ const chromium = require('chrome-aws-lambda');
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-    executablePath: async () => await chromium.executablePath,
-    args: chromium.args,
-    headless: chromium.headless
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-zygote',
+      '--disable-gpu'
+    ]
   }
 });
 
