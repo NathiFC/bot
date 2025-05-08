@@ -12,5 +12,7 @@
     "puppeteer": "^21.3.8"
   }
 }
+npm uninstall puppeteer-core
+
 npm install puppeteer
 
